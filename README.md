@@ -6,20 +6,7 @@ VoltGrid is a power supply optimization tool that helps in minimizing power cuts
 
 ## Project Structure
 
-VoltGrid/
-│── backend/ # Flask backend │
-├── app.py # Main backend file │
-├── requirements.txt # Dependencies │
-├── models/ #Data models if using a database │
-├── routes/ # API endpoints │
-├── venv/ # Virtual environment (not pushed to GitHub)
-│── frontend/ # React.js frontend │
-├── src/ # React components │
-├── public/ # Static files │
-├── package.json # Dependencies
-│── docs/ # Documentation & guidelines
-│── .gitignore # Ignore unnecessary files
-│── README.md # Project overview & setup instructions
+VoltGrid/ │── backend/ # Flask backend │ ├── app.py # Main backend file │ ├── requirements.txt # Dependencies │ ├── models/ # Data models if using a database │ ├── routes/ # API endpoints │ ├── venv/ # Virtual environment (not pushed to GitHub) │── frontend/ # React.js frontend │ ├── src/ # React components │ ├── public/ # Static files │ ├── package.json # Dependencies │── docs/ # Documentation & guidelines │── .gitignore # Ignore unnecessary files │── README.md # Project overview & setup instructions
 
 ## Setup Instructions
 
