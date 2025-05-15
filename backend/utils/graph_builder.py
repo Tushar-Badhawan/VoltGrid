@@ -1,11 +1,28 @@
-import networkx as nx
 import json
+
+class VoltGridGraph:
+    def __init__(self):
+        self.nodes = {}  # node_id -> attribute dict
+        self.edges = []  # list of (source, target, capacity)
+
+    def add_node(self, node_id, **attrs):
+        self.nodes[node_id] = attrs
+
+    def add_edge(self, source, target, capacity=1000):
+        self.edges.append((source, target, capacity))
+
+    def number_of_nodes(self):
+        return len(self.nodes)
+
+    def number_of_edges(self):
+        return len(self.edges)
+
 
 def build_graph_and_analyze(data):
     nodes = data['nodes']
     edges = data['edges']
 
-    G = nx.DiGraph()
+    G = VoltGridGraph()
 
     # Add nodes with attributes
     for node in nodes:
@@ -17,7 +34,7 @@ def build_graph_and_analyze(data):
 
         G.add_node(node_id, type=node_type, supply=supply, demand=demand, priority=priority)
 
-    # Add edges (set default capacity, or adjust logic later)
+    # Add edges (default capacity)
     for edge in edges:
         src = edge['source']
         tgt = edge['target']
@@ -29,15 +46,15 @@ def build_graph_and_analyze(data):
 
     print("\n✅ Graph Structure Built:")
     print("Nodes:")
-    for n, attr in G.nodes(data=True):
+    for n, attr in G.nodes.items():
         print(f"  {n}: {attr}")
     print("Edges:")
-    for u, v, attr in G.edges(data=True):
-        print(f"  {u} -> {v} (capacity={attr['capacity']})")
+    for src, tgt, cap in G.edges:
+        print(f"  {src} -> {tgt} (capacity={cap})")
 
-    # Example summary data for frontend (you can replace with Ford-Fulkerson logic later)
-    total_supply = sum(G.nodes[n]['supply'] for n in G if G.nodes[n]['type'] == 'Power Source')
-    total_demand = sum(G.nodes[n]['demand'] for n in G if G.nodes[n]['type'] in ['Consumer', 'Hospital', 'School'])
+    # Example summary data for frontend
+    total_supply = sum(attr['supply'] for attr in G.nodes.values() if attr['type'] == 'Power Source')
+    total_demand = sum(attr['demand'] for attr in G.nodes.values() if attr['type'] in ['Consumer', 'Hospital', 'School'])
 
     result = {
         "node_count": G.number_of_nodes(),
