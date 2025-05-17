@@ -50,13 +50,16 @@ def analyse_graph():
         print("  ✅ Demand Fully Met!" if fully_satisfied else "  ⚠️  Demand NOT Fully Met")
 
         return jsonify({
-            "node_count": graph.number_of_nodes(),
-            "edge_count": graph.number_of_edges(),
-            "total_supply": total_supply,
-            "total_demand": total_demand,
-            "max_flow": max_flow,
-            "fully_satisfied": fully_satisfied
+         "node_count": graph.number_of_nodes(),
+         "edge_count": graph.number_of_edges(),
+         "total_supply": result["total_supply"],
+         "total_demand": result["total_demand"],
+         "max_flow": result["max_flow"],
+         "fully_satisfied": result["max_flow"] >= result["total_demand"],
+         "edgeFlows": result["edge_flows"],           # ✅ include edge flow details
+         "nodeStatus": result["node_status"]          # ✅ include node status
         })
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

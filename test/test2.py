@@ -1,9 +1,10 @@
+import json
 from collections import deque
 
 class MaxFlowGraph:
     def __init__(self):
-        self.graph = {}  # adjacency list: node -> list of (neighbor, capacity)
-        self.flow = {}   # (u, v) -> current flow
+        self.graph = {}
+        self.flow = {}
 
     def add_edge(self, u, v, capacity):
         if u not in self.graph:
@@ -11,7 +12,7 @@ class MaxFlowGraph:
         if v not in self.graph:
             self.graph[v] = []
         self.graph[u].append((v, capacity))
-        self.graph[v].append((u, 0))  # reverse edge with 0 capacity
+        self.graph[v].append((u, 0))
         self.flow[(u, v)] = 0
         self.flow[(v, u)] = 0
 
@@ -36,7 +37,6 @@ class MaxFlowGraph:
         max_flow = 0
 
         while self.bfs(source, sink, parent):
-            # Find the max flow through the path found
             path_flow = float('inf')
             s = sink
             while s != source:
@@ -47,7 +47,6 @@ class MaxFlowGraph:
                         break
                 s = parent[s]
 
-            # Update the flow values
             v = sink
             while v != source:
                 u = parent[v]
@@ -69,13 +68,11 @@ def calculate_max_flow(data):
     supply = {node['id']: node['data'].get('supply', 0) for node in nodes if node['data'].get('type') == 'Power Source'}
     demand = {node['id']: node['data'].get('demand', 0) for node in nodes if node['data'].get('type') in ['Consumer', 'Hospital', 'School']}
 
-    # Add all graph edges with default capacity (1000 kW as example)
     for edge in edges:
         src = edge['source']
         tgt = edge['target']
         G.add_edge(src, tgt, 1000)
 
-    # Create super source and super sink
     super_source = 'SUPER_SOURCE'
     super_sink = 'SUPER_SINK'
 
@@ -87,31 +84,24 @@ def calculate_max_flow(data):
 
     maxflow = G.ford_fulkerson(super_source, super_sink)
 
-    # Extract edge flows excluding super source/sink edges
     edge_flows = {}
     for (u, v), flow in G.flow.items():
         if (u.startswith("SUPER_") or v.startswith("SUPER_")):
             continue
         for neighbor, cap in G.graph[u]:
             if neighbor == v:
-                if cap == 0:
-                    # Skip zero capacity edges to avoid division by zero
-                    continue
-                usage_percent = (flow / cap) * 100
                 edge_flows[f"{u}->{v}"] = {
                     "flow": flow,
-                    "capacity": cap,
-                    "usage_percent": usage_percent
+                    "capacity": cap
                 }
                 break
 
-    # Calculate node status by summing incoming positive flows
     node_status = {}
     for node in demand:
-        incoming = sum(
-            flow for (u, v), flow in G.flow.items()
-            if v == node and not u.startswith('SUPER_') and flow > 0
-        )
+        incoming = 0
+        for u in G.graph.get(node, []):
+            src = u[0]
+            incoming += G.flow.get((src, node), 0)
         required = demand[node]
         if incoming >= required:
             node_status[node] = "met"
@@ -127,3 +117,60 @@ def calculate_max_flow(data):
         "edge_flows": edge_flows,
         "node_status": node_status
     }
+
+# JSON Graph Data
+data = {
+  "nodes": [
+    {
+      "id": "1",
+      "type": "default",
+      "position": { "x": 440, "y": 169 },
+      "data": {
+        "label": "Power Source",
+        "type": "Power Source",
+        "supply": 10
+      }
+    },
+    {
+      "id": "2",
+      "type": "Substation",
+      "position": { "x": 482, "y": 301 },
+      "data": {
+        "label": "Substation",
+        "type": "Substation"
+      }
+    },
+    {
+      "id": "3",
+      "type": "Consumer",
+      "position": { "x": 495, "y": 433 },
+      "data": {
+        "label": "Consumer",
+        "type": "Consumer",
+        "demand": 5
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "1",
+      "sourceHandle": None,
+      "target": "2",
+      "targetHandle": None,
+      "animated": True,
+      "id": "reactflow__edge-1-2"
+    },
+    {
+      "source": "2",
+      "sourceHandle": "bottom",
+      "target": "3",
+      "targetHandle": None,
+      "animated": True,
+      "id": "reactflow__edge-2bottom-3"
+    }
+  ]
+}
+
+# Run the max flow calculation
+result = calculate_max_flow(data)
+print(json.dumps(result, indent=2))
