@@ -1,0 +1,246 @@
+/* Landing.css */
+
+/* Global Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Navbar Styles */
+.navbar {
+  background-color: #282c34;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  align-items: center;
+}
+
+.navbar-logo {
+  color: white;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+}
+
+.navbar-links li {
+  margin: 0 15px;
+}
+
+.navbar-links li a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.navbar-links li a:hover {
+  color: #1e90ff;
+}
+
+/* Hero Section */
+.hero {
+  height: 100vh;
+  background-color: #f4f4f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #333;
+}
+
+.hero-content {
+  padding: 20px;
+}
+
+.hero-logo {
+  width: 150px;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 50%;
+  position: relative;
+}
+
+.hero-title {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.hero-tagline {
+  font-size: 1.2rem;
+  color: #777;
+}
+
+/* Intro Section */
+.intro-section {
+  padding: 50px 20px;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+.intro-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.intro-section p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* CTA Section */
+.cta-section {
+  padding: 50px 20px;
+  background-color: #282c34;
+  color: white;
+  text-align: center;
+}
+
+.cta-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.cta-section p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.cta-section button {
+  background-color: #1e90ff;
+  color: white;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.cta-section button:hover {
+  background-color: #0c7db6;
+}
+
+.user-welcome {
+  text-align: center;
+  margin: 60px auto;
+  padding: 40px 20px;
+  max-width: 600px;
+  background: linear-gradient(145deg, #1e1e1e, #2c2c2c);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  color: #f5f5f5;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.welcome-message {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #ffce52;
+  text-shadow: 1px 1px 2px #000;
+}
+
+.project-button {
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  background-color: #ffce52;
+  color: #1e1e1e;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.project-button:hover {
+  background-color: #f4b800;
+  transform: translateY(-2px);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.about-enhanced {
+  background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
+  color: #ff8800;
+  padding: 4rem 2rem;
+  border-radius: 20px;
+  margin: 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.about-title {
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.about-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.about-text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.about-features {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.feature-card {
+  background: #1a1a1a;
+  padding: 1.5rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  color: #eaeaea;
+}
+
+.feature-card h4 {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+}
+
+@media (min-width: 768px) {
+  .about-grid {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .about-text {
+    flex: 1;
+    padding-right: 2rem;
+  }
+
+  .about-features {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.logout-btn {
+  background-color: rgb(5, 255, 5);
+  color: black;
+  transition: transform 0.2s ease, background-color 0.3s ease;;
+}
+
+.logout-btn:hover {
+  background-color: rgb(255, 0, 0);
+}

@@ -1,0 +1,109 @@
+/* Overlay styling */
+.login-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Login box container */
+.login-box {
+  background: #0d1b2a;
+  width: 320px;
+  height: 420px;
+  border-radius: 12px;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 0 25px rgba(0, 119, 255, 0.35);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Close button */
+.login-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #80d0ff;
+  cursor: pointer;
+}
+
+/* Heading text */
+.login-heading {
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+  color: #80d0ff;
+  text-align: center;
+}
+
+/* Login form container */
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Input fields */
+.login-form input {
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 6px;
+  background: #1c2b3a;
+  color: white;
+  font-size: 1rem;
+}
+
+/* Submit button */
+.login-form button {
+  padding: 12px;
+  margin-top: 20px;
+  background: #0077ff;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-form button:hover {
+  background: #f76403;
+}
+
+/* Toggle button */
+.toggle-btn {
+  background: none;
+  border: none;
+  color: #80d0ff;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Success message */
+.success-message {
+  color: green;
+}
+
+/* Error message */
+.error-message {
+  color: red;
+}
+
+/* Animation for fading in */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
