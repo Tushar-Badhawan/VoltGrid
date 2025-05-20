@@ -65,17 +65,28 @@ def calculate_max_flow(data):
 
     G = MaxFlowGraph()
 
+    # Create a map of node id -> label-type id (e.g., "Consumer-3")
+    label_id_map = {}
+    type_counts = {}
+
+    for node in nodes:
+        node_id = node['id']
+        node_type = node['data'].get('type', 'Node')
+        count = type_counts.get(node_type, 1)
+        label_id = f"{node_type}({count})"
+        label_id_map[node_id] = label_id
+        type_counts[node_type] = count + 1
+
     node_types = {node['id']: node['data'].get('type') for node in nodes}
     supply = {node['id']: node['data'].get('supply', 0) for node in nodes if node['data'].get('type') == 'Power Source'}
     demand = {node['id']: node['data'].get('demand', 0) for node in nodes if node['data'].get('type') in ['Consumer', 'Hospital', 'School']}
 
-    # Add all graph edges with default capacity (1000 kW as example)
+    # Add graph edges
     for edge in edges:
         src = edge['source']
         tgt = edge['target']
         G.add_edge(src, tgt, 1000)
 
-    # Create super source and super sink
     super_source = 'SUPER_SOURCE'
     super_sink = 'SUPER_SINK'
 
@@ -87,25 +98,23 @@ def calculate_max_flow(data):
 
     maxflow = G.ford_fulkerson(super_source, super_sink)
 
-    # Extract edge flows excluding super source/sink edges
+    # Prepare edge flow report with label-based IDs
     edge_flows = {}
     for (u, v), flow in G.flow.items():
-        if (u.startswith("SUPER_") or v.startswith("SUPER_")):
+        if u.startswith("SUPER_") or v.startswith("SUPER_"):
             continue
         for neighbor, cap in G.graph[u]:
-            if neighbor == v:
-                if cap == 0:
-                    # Skip zero capacity edges to avoid division by zero
-                    continue
+            if neighbor == v and cap > 0:
                 usage_percent = (flow / cap) * 100
-                edge_flows[f"{u}->{v}"] = {
+                key = f"{label_id_map.get(u, u)}->{label_id_map.get(v, v)}"
+                edge_flows[key] = {
                     "flow": flow,
                     "capacity": cap,
                     "usage_percent": usage_percent
                 }
                 break
 
-    # Calculate node status by summing incoming positive flows
+    # Calculate node status with label-based IDs
     node_status = {}
     for node in demand:
         incoming = sum(
@@ -113,12 +122,12 @@ def calculate_max_flow(data):
             if v == node and not u.startswith('SUPER_') and flow > 0
         )
         required = demand[node]
+        status = "unmet"
         if incoming >= required:
-            node_status[node] = "met"
+            status = "met"
         elif incoming > 0:
-            node_status[node] = "partially_met"
-        else:
-            node_status[node] = "unmet"
+            status = "partially_met"
+        node_status[label_id_map.get(node, node)] = status
 
     return {
         "max_flow": maxflow,

@@ -35,14 +35,14 @@ def analyse_graph():
         graph = build_graph(data)
         fix_disconnected_nodes(graph)
 
-        # ✅ Max Flow Calculation
+        #  Max Flow Calculation
         result = calculate_max_flow(data)
         total_supply = result['total_supply']
         total_demand = result['total_demand']
         max_flow = result['max_flow']
         fully_satisfied = result['max_flow'] >= result['total_demand']
 
-        # ✅ Console log
+        #  Console log
         print("\n📊 Analysis Summary:")
         print(f"  Total Supply : {total_supply} kW")
         print(f"  Total Demand : {total_demand} kW")
@@ -56,8 +56,8 @@ def analyse_graph():
          "total_demand": result["total_demand"],
          "max_flow": result["max_flow"],
          "fully_satisfied": result["max_flow"] >= result["total_demand"],
-         "edgeFlows": result["edge_flows"],           # ✅ include edge flow details
-         "nodeStatus": result["node_status"]          # ✅ include node status
+         "edgeFlows": result["edge_flows"],       
+         "nodeStatus": result["node_status"]         
         })
 
     except Exception as e:
